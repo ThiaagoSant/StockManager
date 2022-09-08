@@ -1,15 +1,15 @@
-import React from 'react'
+import React from "react";
 
-import { HeaderStyle } from './style'
+import { HeaderStyle } from "./style";
 
 const Header = () => {
   return (
     <HeaderStyle>
-      <nav>
-        <p>Stock <span>Manager</span></p>
-      </nav>
+      <p>
+        Stock <span>Manager</span>
+      </p>
     </HeaderStyle>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
