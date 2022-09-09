@@ -12,6 +12,7 @@ export const HeaderStyle = styled.header`
     display: flex;
     justify-content: space-between;
     height: inherit;
+    width: inherit;
     padding: 0 2%;
 
     p {
