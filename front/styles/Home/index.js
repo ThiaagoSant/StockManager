@@ -6,7 +6,8 @@ export const HomeStyle = styled.main`
   justify-content: center;
   flex-direction: column;
   height: calc(100vh - 68px);
-  margin: 0 6%;
+  width: 100%;
+  padding: 0 3%;
 
   h1 {
     color: crimson;
