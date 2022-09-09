@@ -37,7 +37,7 @@ const Register = () => {
 
           <input
             id="qauntity"
-            type="text"
+            type="number"
             placeholder="Digite a quantidade do produto"
             name="qauntity"
             required

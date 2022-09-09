@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HeaderStyle } from "./style";
 
 const Header = ({ route, name }) => {
+
   return (
     <HeaderStyle>
       <nav>
