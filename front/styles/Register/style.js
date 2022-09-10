@@ -27,6 +27,23 @@ export const Main = styled.main`
       font-family: "Poppins", sans-serif;
     }
 
+    label {
+      margin: 5px 0;
+      width: 100%;
+      position: relative;
+      
+      strong {
+        font-family: "Poppins", sans-serif;
+        color: crimson;
+        font-size: 14px;
+        background-color: white;
+        padding: 0 5px;
+        position: absolute;
+        top: -9px;
+        left: 25px;
+      }
+    }
+
     input {
       text-align: center;
       border: 1px solid #ccc;

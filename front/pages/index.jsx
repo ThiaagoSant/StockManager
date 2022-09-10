@@ -1,59 +1,71 @@
-import React from "react";
-import axios from "axios";
-
-import { BASE_URL } from "../constants/urls";
+import React, { useState } from "react";
 
 import Header from "../components/Header";
 
 import { HomeStyle } from "../styles/Home";
 
+import Link from "next/link";
+
+import { connect } from "react-redux";
+import { toggleId } from "../components/store/actions";
+import { getAllProducts } from "../components/store/actions";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
-export async function getStaticProps() {
-  const products = await (await axios.get(`${BASE_URL}/products`)).data;
+function Home({ products, dispatch }) {
+  const [allProducts, setAllProducts] = useState([]);
 
-  return {
-    props: { products },
-  };
-}
+  React.useEffect(() => {
+    (async () => {
+      const response = await (await products).data;
+      setAllProducts(response);
+    })();
+  }, [products]);
 
-export default function Home({ products }) {
+  React.useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
+
   const renderProducts = () => {
-    const productsJSX = products.map(({ name, category, price, quantity }) => {
-      return (
-        <div>
-          <p>
-            Nome: <span>{name}</span>
-          </p>
-          <p>
-            Categoria: <span>{category}</span>
-          </p>
-          <p>
-            Preço:{" "}
-            <span>
-              {price.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-              })}
-            </span>
-          </p>
+    const productsJSX = allProducts?.map(
+      ({ id, name, category, price, quantity }) => {
+        return (
+          <div key={id}>
+            <p>
+              Nome: <span>{name}</span>
+            </p>
+            <p>
+              Categoria: <span>{category}</span>
+            </p>
+            <p>
+              Preço:{" "}
+              <span>
+                {price.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </span>
+            </p>
 
-          <p>
-            Quantidade: <span>{quantity}</span>
-          </p>
+            <p>
+              Quantidade: <span>{quantity}</span>
+            </p>
 
-          <section>
-            <button>
-              <FontAwesomeIcon icon={faPencil} />
-            </button>
-            <button>
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </section>
-        </div>
-      );
-    });
+            <section>
+              <Link href={"edit"}>
+                <button onClick={() => dispatch(toggleId(id))}>
+                  <FontAwesomeIcon icon={faPencil} />
+                </button>
+              </Link>
+              <button>
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </section>
+          </div>
+        );
+      }
+    );
 
     return productsJSX;
   };
@@ -70,3 +82,5 @@ export default function Home({ products }) {
     </>
   );
 }
+
+export default connect((state) => ({ products: state.products }))(Home);

@@ -19,6 +19,7 @@ const useForm = (initialState) => {
 
   return {
     form,
+    setForm,
     onChange,
     cleanFields,
   };

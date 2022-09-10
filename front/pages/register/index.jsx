@@ -9,7 +9,7 @@ import { BASE_URL } from "../../constants/urls";
 import { Main } from "../../styles/Register/style";
 
 const Register = () => {
-  const { form, onChange, cleanFields } = useForm({
+  const { form, setForm, onChange, cleanFields } = useForm({
     name: "",
     category: "",
     price: "",
