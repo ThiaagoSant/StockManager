@@ -33,10 +33,10 @@ app.put("/editProduct/:id", async (req: Request, res: Response) => {
   try {
     await connection("products")
       .update({
-        name: req.headers?.name,
-        category: req.headers?.category,
-        price: req.headers?.price,
-        quantity: req.headers?.quantity,
+        name: req.body?.name,
+        category: req.body?.category,
+        price: req.body?.price,
+        quantity: req.body?.quantity,
       })
       .where({ id: req.params?.id });
 
