@@ -23,12 +23,26 @@ app.post("/createProduct", async (req: Request, res: Response) => {
       .insert({ id, name, category, price, quantity })
       .into("products");
 
-      res.status(201).send("Produto criado com sucesso")
+    res.status(201).send("Produto criado com sucesso");
   } catch (error: any) {
     console.log(error);
   }
 });
 
-app.put("/editProduct", (req: Request, res: Response) => {
-  
+app.put("/editProduct/:id", async (req: Request, res: Response) => {
+  try {
+    await connection("products")
+      .update({
+        name: req.headers?.name,
+        category: req.headers?.category,
+        price: req.headers?.price,
+        quantity: req.headers?.quantity,
+      })
+      .where({ id: req.params?.id });
+
+    res.send("Success!");
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(500).send("Deu ruim ae, faz o bglh direito");
+  }
 });
