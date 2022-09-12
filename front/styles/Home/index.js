@@ -5,20 +5,20 @@ export const HomeStyle = styled.main`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: calc(100vh - 68px);
   width: 100%;
   padding: 0 3%;
 
   h1 {
     color: crimson;
     font-family: "Poppins", sans-serif;
-    font-size: 1.7rem;
-    margin-bottom: 26px;
+    font-size: 1.8rem;
+    margin-top: 108px;
   }
 
   section {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     column-gap: 25px;
 
     div {
@@ -67,6 +67,37 @@ export const HomeStyle = styled.main`
           }
         }
       }
+    }
+  }
+`;
+
+export const FormHome = styled.form`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h3 {
+    margin-right: 20px;
+    font-size: 1rem;
+    color: crimson;
+    font-family: "Poppins", sans-serif;
+  }
+
+  input,
+  select {
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    padding: 10px;
+    margin-top: 15px;
+    margin-left: 10px;
+    font-size: 14px;
+    outline: 0;
+    font-family: "Poppins", sans-serif;
+    transition: border 0.12s ease-in;
+
+    &:focus {
+      border: 2px solid crimson;
     }
   }
 `;

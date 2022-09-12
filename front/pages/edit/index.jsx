@@ -55,7 +55,7 @@ const Edit = ({ products, id, dispatch }) => {
 
   return (
     <>
-      <Header route="/" />
+      <Header route="/" name={'Voltar'} />
 
       <Main>
         <form onSubmit={handleSubmit}>

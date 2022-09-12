@@ -6,7 +6,7 @@ export const Main = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 68px);
+  height: 100vh;
 
   form {
     align-items: center;
@@ -18,6 +18,7 @@ export const Main = styled.main`
     row-gap: 15px;
     max-width: 440px;
     width: 100%;
+    margin-top: 70px;
 
     h1 {
       margin: 10px 0;
@@ -31,7 +32,7 @@ export const Main = styled.main`
       margin: 5px 0;
       width: 100%;
       position: relative;
-      
+
       strong {
         font-family: "Poppins", sans-serif;
         color: crimson;
