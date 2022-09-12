@@ -2,6 +2,7 @@ import React from "react";
 
 const useForm = (initialState) => {
   const [form, setForm] = React.useState(initialState);
+  const [event, setEvent] = React.useState({});
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -10,7 +11,7 @@ const useForm = (initialState) => {
       ...form,
       [name]: name === "price" || name === "quantity" ? +value : value,
     }));
-
+    setEvent(e);
   };
 
   const cleanFields = () => {
@@ -21,6 +22,7 @@ const useForm = (initialState) => {
     form,
     setForm,
     onChange,
+    event,
     cleanFields,
   };
 };

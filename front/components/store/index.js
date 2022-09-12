@@ -4,7 +4,6 @@ import axios from "axios";
 import { BASE_URL } from "../../constants/urls";
 
 let INITAL_STATE = {
-  products: axios.get(`${BASE_URL}/products`),
   id: "",
 };
 
@@ -15,7 +14,7 @@ function reducer(state = INITAL_STATE, action) {
 
   if (action.type === "GET_ALL_PRODUCTS") {
     const getProducts = async () => {
-      const response = await axios.get(`${BASE_URL}/products`);
+      const response = await axios.get(`${BASE_URL}/products?page=${action.page}`);
       return response;
     };
     return { ...state, products: getProducts() };

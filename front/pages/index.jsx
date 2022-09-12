@@ -1,104 +1,69 @@
 import React, { useState } from "react";
+
 import useForm from "../hooks/useForm";
-
 import Header from "../components/Header";
+import Filters from "../components/Filters";
+import ProductsCard from "../components/ProductsCard";
 
-import Link from "next/link";
+import { HomeStyle } from "../styles/Home";
 
 import { connect } from "react-redux";
-import { toggleId } from "../components/store/actions";
 import { getAllProducts } from "../components/store/actions";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
-import { HomeStyle, FormHome } from "../styles/Home";
+import Paginagion from "../components/Pagination";
 
 function Home({ products, dispatch }) {
   const [allProducts, setAllProducts] = useState([]);
-  const { form, onChange } = useForm({});
+  const { form, onChange, event } = useForm({});
+
+  const renderProducts = () => {
+    let copyProducts = [...allProducts];
+
+    const currentTarget = event?.target?.name;
+    const isTyping = event?.target?.value;
+
+    const isNameOrCategory =
+      isTyping && (currentTarget === "name" || currentTarget === "category");
+    const isMaxOrMin =
+      isTyping && (currentTarget === "max" || currentTarget === "min");
+
+    const isOrder = isTyping !== "semOrder" && currentTarget === "order";
+
+    if (isNameOrCategory) {
+      copyProducts = copyProducts.filter((product) => {
+        const item = product[currentTarget];
+        return item.toLowerCase().includes(form[currentTarget]);
+      });
+    }
+
+    if (isMaxOrMin) {
+      copyProducts = copyProducts.filter(({ price }) => {
+        return +price <= +form[currentTarget];
+      });
+    }
+
+    if (isOrder) {
+      copyProducts = copyProducts.sort((a, b) =>
+        isTyping === "menor" ? a.price - b.price : a.price + b.price
+      );
+    }
+
+    const productsJSX = copyProducts?.map((products) => (
+      <ProductsCard key={products.id} dispatch={dispatch} products={products} />
+    ));
+
+    return productsJSX;
+  };
 
   React.useEffect(() => {
     (async () => {
-      const response = await (await products).data;
+      const response = await (await products)?.data;
       setAllProducts(response);
     })();
   }, [products]);
 
   React.useEffect(() => {
-    dispatch(getAllProducts());
+    dispatch(getAllProducts(1));
   }, []);
-
-  const renderProducts = () => {
-    let copyProducts = [...allProducts];
-
-    if (form.name) {
-      copyProducts = copyProducts.filter(({ name }) =>
-        name.toLowerCase().includes(form.name)
-      );
-    }
-
-    if (form.category) {
-      copyProducts = copyProducts.filter(({ category }) =>
-        category.toLowerCase().includes(form.category)
-      );
-    }
-
-    if (form.max) {
-      copyProducts = copyProducts.filter(({ price }) => +price <= +form.max);
-    }
-
-    if (form.min) {
-      copyProducts = copyProducts.filter(({ price }) => +price >= +form.min);
-    }
-
-    if (form.order === "menor") {
-      copyProducts = copyProducts.sort((a, b) => a.price - b.price);
-    }
-    if (form.order === "maior") {
-      copyProducts = copyProducts.sort((a, b) => a.price - b.price).reverse();
-    }
-
-    const productsJSX = copyProducts?.map(
-      ({ id, name, category, price, quantity }) => {
-        return (
-          <div key={id}>
-            <p>
-              Nome: <span>{name}</span>
-            </p>
-            <p>
-              Categoria: <span>{category}</span>
-            </p>
-            <p>
-              Preço:{" "}
-              <span>
-                {price.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })}
-              </span>
-            </p>
-
-            <p>
-              Quantidade: <span>{quantity}</span>
-            </p>
-
-            <section>
-              <Link href={"edit"}>
-                <button onClick={() => dispatch(toggleId(id))}>
-                  <FontAwesomeIcon icon={faPencil} />
-                </button>
-              </Link>
-              <button>
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
-            </section>
-          </div>
-        );
-      }
-    );
-
-    return productsJSX;
-  };
 
   return (
     <div>
@@ -107,55 +72,14 @@ function Home({ products, dispatch }) {
       <HomeStyle>
         <h1>Seus produtos!</h1>
 
-        <FormHome>
-          <h3>Meus Filtros:</h3>
-          <section>
-            <label htmlFor="name">
-              <input
-                onChange={onChange}
-                name="name"
-                type="text"
-                placeholder="Nome  Ex: Oreo"
-              />
-            </label>
+        <Filters onChange={onChange} />
 
-            <label htmlFor="category">
-              <input
-                onChange={onChange}
-                name="category"
-                type="text"
-                placeholder="Categoria Ex: Biscoito"
-              />
-            </label>
-
-            <label htmlFor="max">
-              <input
-                onChange={onChange}
-                name="max"
-                type="number"
-                placeholder="Por Valor Maximo"
-              />
-            </label>
-
-            <label htmlFor="min">
-              <input
-                onChange={onChange}
-                name="min"
-                type="number"
-                placeholder="Por Valor Minimo"
-              />
-            </label>
-
-            <select name="order" onChange={onChange}>
-              <option value={"semOrder"}>Sem Ordenação</option>
-              <option value="maior">Maior Valor</option>
-              <option value="menor">Menor Valor</option>
-            </select>
-          </section>
-        </FormHome>
-
-        <section>{renderProducts()}</section>
+        <section>
+          {allProducts?.length ? renderProducts() : "Sem produtos"}
+        </section>
       </HomeStyle>
+
+      <Paginagion dispatch={dispatch} getAllProducts={getAllProducts} />
     </div>
   );
 }

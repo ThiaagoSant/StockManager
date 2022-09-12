@@ -5,8 +5,8 @@ export const HomeStyle = styled.main`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 100%;
   padding: 0 3%;
+  width: 100%;
 
   h1 {
     color: crimson;
@@ -33,7 +33,7 @@ export const HomeStyle = styled.main`
       position: relative;
       margin-bottom: 26px;
       max-width: 100%;
-      width: 300px;
+      width: 350px;
       color: crimson;
 
       P {
@@ -72,9 +72,11 @@ export const HomeStyle = styled.main`
 `;
 
 export const FormHome = styled.form`
-  display: flex;
   align-items: center;
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
+  width: 100%;
 
   h3 {
     margin-right: 20px;

@@ -3,7 +3,8 @@ export const toggleId = (id) => ({
   id,
 });
 
-export const getAllProducts = () => ({
+export const getAllProducts = (page) => ({
   type: "GET_ALL_PRODUCTS",
+  page
 });
 
